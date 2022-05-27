@@ -1,8 +1,7 @@
 .content{
-    display: grid;
     grid-area: c;
     background: mediumpurple;
-
+    padding: 5px 15px;
 }
 .content img{
     width: 400px;

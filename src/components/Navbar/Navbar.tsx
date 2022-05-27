@@ -4,7 +4,8 @@ import s from "./Navbar.module.css"
 export const Navbar = () => {
     return (
         <div className={s.navbar}>
-            Navbar
+            Profile
+            Messages
         </div>
     );
 };

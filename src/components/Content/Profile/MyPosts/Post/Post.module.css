@@ -1,0 +1,43 @@
+.post{
+    display: grid;
+    grid-template-areas: "avatar postBody";
+    grid-template-columns: 0.7fr 10fr;
+    margin: 10px 0;
+}
+
+.post img{
+    max-width: 50px;
+    border-radius: 50%;
+}
+.avatar{
+    grid-area: avatar;
+}
+/*.postBody{
+    padding: 10px;
+    grid-area: postBody;
+    width: 300px;
+    border: 1px solid black;
+    border-radius: 15px;
+    background: salmon;
+}*/
+
+.postBody {
+    background-color: salmon;
+    border-radius: 10px 10px 10px 0;
+    color: black;
+    position: relative;
+    z-index: 3;
+    padding: 10px 20px;
+    max-width: max-content;
+}
+
+.postBody::after {
+    position: absolute;
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle at 0 0, transparent 20px, salmon 0);
+    left: -20px;
+    bottom: 0;
+    z-index: -1;
+}

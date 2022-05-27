@@ -1,5 +1,4 @@
 .navbar{
-    display: grid;
     grid-area: n;
     background: greenyellow;
 }
