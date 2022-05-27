@@ -1,0 +1,9 @@
+.content{
+    display: grid;
+    grid-area: c;
+    background: mediumpurple;
+
+}
+.content img{
+    width: 400px;
+}
