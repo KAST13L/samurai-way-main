@@ -12,14 +12,6 @@
 .avatar{
     grid-area: avatar;
 }
-/*.postBody{
-    padding: 10px;
-    grid-area: postBody;
-    width: 300px;
-    border: 1px solid black;
-    border-radius: 15px;
-    background: salmon;
-}*/
 
 .postBody {
     background-color: salmon;

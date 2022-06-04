@@ -1,10 +1,9 @@
 import React from 'react';
 
-export const Messages = () => {
+export const Dialogs = () => {
     return (
         <div>
-            Messages
+            <h1>dialogs</h1>
         </div>
     );
 };
-

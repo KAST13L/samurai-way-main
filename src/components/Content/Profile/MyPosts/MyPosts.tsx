@@ -32,13 +32,10 @@ export const MyPosts = () => {
                 <button onClick={createPost}>Create comment</button>
             </div>
             <div>
-                {posts.map(m => <div>
+                {posts.map((m, index) => <div key={index+1}>
                     <Post message={m.message}/>
                 </div>)}
             </div>
-            {/*<Post message={"Hello my fried!!!"}/>
-            <Post message={"What are you doing?"}/>
-            <Post message={"Lets go to play football, dear Davyd!"}/>*/}
         </div>
     );
 };
