@@ -1,0 +1,24 @@
+.dialog {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ffffff;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 35px;
+}
+
+.dialog img{
+    height: 50px;
+    width: 50px;
+    margin: 0 10px;
+    border-radius: 50%;
+}
+
+.dialog a {
+    text-decoration: none;
+}
+
+.active {
+    color: greenyellow;
+}

@@ -4,21 +4,30 @@ import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
 import {Dialogs} from "./components/Content/Dialogs/Dialogs";
 import {Profile} from "./components/Content/Profile/Profile";
-import {Route} from "react-router-dom";
+import {Redirect, Route} from "react-router-dom";
 import {News} from "./components/Content/News/News";
+import {StoreDataType} from "./redux/state";
 
-function App() {
+type AppPropsType = {
+    store: StoreDataType
+}
+
+export const App: React.FC<AppPropsType> = (props) => {
     return (
         <div className={s.App}>
             <Header/>
             <Navbar/>
             <div className={s.content}>
-                <Route path='/profile' component={Profile}/>
-                <Route path='/dialogs' component={Dialogs}/>
-                <Route path='/news' component={News}/>
+                <Route path='/profile' render={() => <Profile postsData={props.store._state.profilePage.postsData}/>}/>
+                <Route path='/dialogs' render={() => <Dialogs
+                    dialogsData={props.store._state.dialogsPage.dialogsData}
+                    messagesData={props.store._state.dialogsPage.messagesData}/>}
+                />
+                <Route path='/news' render={() => <News/>}/>
+                <Redirect to={'/profile'}/>
             </div>
         </div>
     );
 }
 
-export default App;
+

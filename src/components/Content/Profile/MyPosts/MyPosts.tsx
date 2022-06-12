@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import {Post} from "./Post/Post";
+import {PostDataType} from "../../../../redux/state";
 
-export const MyPosts = () => {
+type MyPostsPropsType = {
+    postsData: Array<PostDataType>
+}
 
-    const [posts, setPosts] = useState([
-        {message: "Hello my fried!!!"},
-        {message: "What are you doing?"},
-        {message: "Lets go to play football, dear Davyd!"}
-    ])
+export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
+
+    const [posts, setPosts] = useState(props.postsData)
     const [post, setPost] = useState('')
 
     const createPost = () => {
@@ -17,6 +18,10 @@ export const MyPosts = () => {
         setPosts([...posts, newPost])
         setPost('')
     }
+
+    let postsElements = posts.map((m, index) => <div key={index + 1}>
+        <Post message={m.message}/>
+    </div>)
 
     return (
         <div>
@@ -29,12 +34,10 @@ export const MyPosts = () => {
                 />
             </div>
             <div>
-                <button onClick={createPost}>Create comment</button>
+                <button disabled={!post} onClick={createPost}>Create comment</button>
             </div>
             <div>
-                {posts.map((m, index) => <div key={index+1}>
-                    <Post message={m.message}/>
-                </div>)}
+                {postsElements}
             </div>
         </div>
     );
