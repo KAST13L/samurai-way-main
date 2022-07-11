@@ -1,7 +1,7 @@
 import React from 'react';
-import {ActionTypes, DialogsPageType} from "./state";
+import {ActionTypes} from "./state";
 
-const initialState: DialogsPageType= {
+const initialState = {
     dialogsData: [
         {
             name: 'Bagira',
@@ -33,7 +33,7 @@ const initialState: DialogsPageType= {
             urlId: '5',
             imgUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Misha_Collins_by_Gage_Skidmore.jpg'
         }
-    ],
+    ] as Array<DialogDataType>,
     messagesData: [
         {
             id: 1,
@@ -45,23 +45,35 @@ const initialState: DialogsPageType= {
             message: 'To send an SMS message to a subscriber who has the service activated, you need to type the text of the message and the subscriber number of the addressee in the special form in the right part of the web page.'
         },
         {id: 4, message: 'The parameters allow setting recipient\'s WM-ID, subject and message text.'}
-    ],
+    ] as Array<MessageDataType>,
     newMessageText: ''
 }
+export type DialogDataType = {
+    name: string
+    id: number
+    urlId: string
+    imgUrl: string
+}
+export type MessageDataType = {
+    id: number
+    message: string
+}
 
-export const DialogsReducer = (state: DialogsPageType = initialState, action: ActionTypes) => {
+export type DialogsReducerPagePropsType = typeof initialState
+
+export const DialogsReducer = (state: DialogsReducerPagePropsType = initialState, action: ActionTypes): DialogsReducerPagePropsType => {
     switch (action.type) {
         case "ADD-MESSAGE":
-            let newMessage = {
-                id: Date.now(),
-                message: state.newMessageText
+            return {
+                ...state,
+                messagesData: [{id: Date.now(), message: state.newMessageText}, ...state.messagesData],
+                newMessageText: ''
             }
-            state.messagesData.unshift(newMessage)
-            state.newMessageText = '';
-            return state
         case "UPDATE-NEW-MESSAGE-TEXT":
-            state.newMessageText = action.text
-            return state
+            return {
+                ...state,
+                newMessageText: action.text
+            }
         default:
             return state
     }

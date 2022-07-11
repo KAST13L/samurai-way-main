@@ -2,16 +2,10 @@ import React from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {MessageItem} from "./MessageItem/MessageItem";
-import {DialogsDataType, MessagesDataType} from "../../../redux/state";
+import {DialogsPropsType} from "./DialogsContainer";
 
-type DialogsPropsType = {
-    dialogsData: Array<DialogsDataType>
-    messagesData: Array<MessagesDataType>
-    addMessage: () => void
-    onChangeContainer: (text: string) => void
-}
 
-export const Dialogs: React.FC<DialogsPropsType> = (props) => {
+export const Dialogs = (props: DialogsPropsType) => {
 
     let newMessageText = React.createRef<HTMLInputElement>()
 
@@ -25,13 +19,12 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
     const onChangeHandler = () => {
         if (newMessageText.current) {
             let text = newMessageText.current.value
-            props.onChangeContainer(text)
+            props.onChangeHandler(text)
         }
     }
 
-    let dialogsElements = props.dialogsData.map(d => <DialogItem key={d.id} name={d.name} urlId={d.urlId}
-                                                                 imgUrl={d.imgUrl}/>)
-    let messagesElements = props.messagesData.map(m => <MessageItem key={m.id} message={m.message}/>)
+    let dialogsElements = props.dialogsPage.dialogsData.map(d => <DialogItem key={d.id} name={d.name} urlId={d.urlId} imgUrl={d.imgUrl}/>)
+    let messagesElements = props.dialogsPage.messagesData.map(m => <MessageItem key={m.id} message={m.message}/>)
 
     return (
         <div className={s.dialogsArea}>

@@ -1,15 +1,8 @@
 import React from 'react';
 import {Post} from "./Post/Post";
-import {PostDataType} from "../../../../redux/state";
+import {MyPostsPropsType} from "./MyPostsContainer";
 
-type MyPostsPropsType = {
-    postsData: Array<PostDataType>
-    addPost: () => void
-    onChangeHandler: (text: string) => void
-}
-
-
-export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
+export const MyPosts= (props: MyPostsPropsType) => {
 
     let newPostText  = React.createRef<HTMLTextAreaElement>()
     const onAddPost = () => {
@@ -26,7 +19,7 @@ export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
         }
     }
 
-    let postsElements = props.postsData.map((m, index) => <div key={index + 1}>
+    let postsElements = props.profilePage.postsData.map((m, index) => <div key={index + 1}>
         <Post message={m.message}/>
     </div>)
 

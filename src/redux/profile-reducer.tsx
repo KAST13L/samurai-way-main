@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActionTypes, ProfilePageType} from "./state";
+import {ActionTypes} from "./state";
 
 const initialState = {
     postsData: [
@@ -10,19 +10,21 @@ const initialState = {
     newPostsText: ''
 }
 
-export const ProfileReducer = (state: ProfilePageType = initialState, action: ActionTypes) => {
+export type ProfileReducerPagePropsType = typeof initialState
+
+export const ProfileReducer = (state: ProfileReducerPagePropsType = initialState, action: ActionTypes): ProfileReducerPagePropsType => {
     switch (action.type) {
         case "ADD-POST":
-            let newPost = {
-                id: Date.now(),
-                message: state.newPostsText
+            return {
+                ...state,
+                postsData: [{id: Date.now(), message: state.newPostsText}, ...state.postsData],
+                newPostsText: ''
             }
-            state.postsData.push(newPost);
-            state.newPostsText = '';
-            return state
         case "UPDATE-NEW-POST-TEXT":
-            state.newPostsText = action.text;
-            return state
+            return {
+                ...state,
+                newPostsText: action.text
+            }
         default:
             return state
     }
