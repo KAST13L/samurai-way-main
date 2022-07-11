@@ -7,6 +7,7 @@ export type ProviderType = {
     store: RootStoreDataType
     children: any
 }
+// sad
 export const Provider = (props: ProviderType) => {
     return (
         <StoreContext.Provider value={props.store}>
