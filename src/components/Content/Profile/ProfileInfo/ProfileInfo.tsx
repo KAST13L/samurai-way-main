@@ -1,15 +1,27 @@
 import React from 'react';
 import s from "./ProfileInfo.module.css";
+import {UserProfileInfoType} from "../../../../redux/profile-reducer";
+import {Preloader} from "../../../../common/Preloader";
 
-export const ProfileInfo = () => {
+type ProfileInfoPropsType = {
+    profile: UserProfileInfoType | null
+}
+
+export const ProfileInfo = (props: ProfileInfoPropsType) => {
+    if(!props.profile){
+        return <Preloader/>
+    }
     return (
-        <div>
-            <div>
-                <img className={s.main} src="https://7wallpapers.net/wp-content/uploads/Francesco-Totti-13.jpg" alt="hi"/>
-            </div>
-            <div>
-                ava + description
-            </div>
+        <div className={s.profileInfo}>
+            <span className={s.img}>
+                <img src={props.profile?.photos.large || 'https://lastfm.freetls.fastly.net/i/u/300x300/8607d5df1af4d247369b1581f512b46b.jpg\''} alt="hi"/>
+            </span>
+            <span className={s.info}>
+                <div><h2>ID: <span style={{color:'red'}}>{props.profile?.userId}</span></h2></div><hr/>
+                <div><h3>Name: <span style={{color:'red'}}>{props.profile?.fullName}</span></h3></div><hr/>
+                <div><b>About me:</b> {props.profile?.aboutMe}</div><hr/>
+                <div><b>Work?:</b> {props.profile?.lookingForAJobDescription}</div><hr/>
+            </span>
         </div>
     );
 };

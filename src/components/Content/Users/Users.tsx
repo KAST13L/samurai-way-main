@@ -1,6 +1,8 @@
 import React from 'react';
 import s from "./Users.module.css";
 import {UserType} from "../../../redux/users-reducer";
+import {NavLink} from "react-router-dom";
+import {followAxios, unfollowAxios} from "../../../api/api";
 
 type UsersPropsType = {
     onPageChanged: (page: number) => void
@@ -10,6 +12,8 @@ type UsersPropsType = {
     users: Array<UserType>
     pageSize: number
     currentPage: number
+    setFollowingInProgress: (followingInProgress: boolean, id: number) => void
+    followingInProgress: Array<number>
 }
 
 export const Users: React.FC<UsersPropsType> = (props) => {
@@ -21,9 +25,8 @@ export const Users: React.FC<UsersPropsType> = (props) => {
 
     return <div>
         <div style={{textAlign: 'center'}}>
-            {pages.map((p, index) => <span>
+            {pages.map((p, index) => <span key={index}>
                     <span
-                        key={index}
                         className={s.page}
                         onClick={() => {
                             props.onPageChanged(p)
@@ -42,17 +45,32 @@ export const Users: React.FC<UsersPropsType> = (props) => {
             borderRadius: '60px 0'
         }}>
             <div style={{textAlign: 'center', padding: '10px'}}>
-                <img style={{width: '100px', border: '1px solid black', borderRadius: '50%'}}
-                     src={el.photos.small ? el.photos.small : 'https://lastfm.freetls.fastly.net/i/u/300x300/8607d5df1af4d247369b1581f512b46b.jpg'}
-                     alt="hi"/>
-
+                <NavLink to={`profile/${el.id}`}>
+                    <img style={{width: '100px', border: '1px solid black', borderRadius: '50%'}}
+                         src={el.photos.small ? el.photos.small : 'https://lastfm.freetls.fastly.net/i/u/300x300/8607d5df1af4d247369b1581f512b46b.jpg'}
+                         alt="hi"/>
+                </NavLink>
                 <div>
                     {el.followed
-                        ? <button onClick={() => {
-                            props.unfollow(el.id)
+                        ? <button disabled={props.followingInProgress.some( id => id === el.id)} onClick={() => {
+                            props.setFollowingInProgress(true, el.id)
+                            unfollowAxios(el.id).then((data) => {
+                                if (data.resultCode === 0) {
+                                    props.unfollow(el.id)
+                                    props.setFollowingInProgress(false, el.id)
+                                }
+                            })
+
                         }}>Unfollow</button>
-                        : <button onClick={() => {
-                            props.follow(el.id)
+                        : <button disabled={props.followingInProgress.some( id => id === el.id)} onClick={() => {
+                            props.setFollowingInProgress(true, el.id)
+                            followAxios(el.id).then((data) => {
+                                if (data.resultCode === 0) {
+                                    props.follow(el.id)
+                                    props.setFollowingInProgress(false, el.id)
+                                }
+                            })
+
                         }}>follow</button>
                     }
                 </div>
@@ -62,7 +80,6 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                 <div>ID: {el.id}</div>
                 <div>{el.status}</div>
             </div>
-
         </div>)}
     </div>;
 };

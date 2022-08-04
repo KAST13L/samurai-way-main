@@ -1,5 +1,4 @@
 import React from 'react';
-import {ActionTypes} from "./state";
 
 const initialState = {
     dialogsData: [
@@ -58,7 +57,7 @@ export type MessageDataType = {
     id: number
     message: string
 }
-
+type ActionTypes = ReturnType<typeof addMessageAC> |ReturnType<typeof updateNewMessageTextAC>
 export type DialogsReducerPagePropsType = typeof initialState
 
 export const DialogsReducer = (state: DialogsReducerPagePropsType = initialState, action: ActionTypes): DialogsReducerPagePropsType => {
@@ -78,4 +77,7 @@ export const DialogsReducer = (state: DialogsReducerPagePropsType = initialState
             return state
     }
 };
+
+export const addMessageAC = () => ({type:'ADD-MESSAGE' as const})
+export const updateNewMessageTextAC = (text: string) => ({type:'UPDATE-NEW-MESSAGE-TEXT' as const, text})
 

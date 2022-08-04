@@ -1,3 +1,15 @@
-.main{
-    max-width: 400px;
+.profileInfo{
+    display: flex;
+    justify-content: space-between;
+    border: 3px solid;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 80px 0;
+}
+.info{
+    width: 650px;
+}
+.img img{
+    border: 3px solid;
+    border-radius: 70px 0;
 }
