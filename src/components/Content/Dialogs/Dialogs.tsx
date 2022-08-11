@@ -40,7 +40,8 @@ export const Dialogs = (props: DialogsPropsType) => {
                 <button onClick={addMessage}>Send</button>
                 {messagesElements}
             </div>
-
         </div>
     );
 };
+
+
