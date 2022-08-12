@@ -2,18 +2,16 @@ import React from 'react';
 import s from "./Users.module.css";
 import {UserType} from "../../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
-import {followAxios, unfollowAxios} from "../../../api/api";
 
 type UsersPropsType = {
     onPageChanged: (page: number) => void
-    follow: (id: number) => void
-    unfollow: (id: number) => void
     totalUserCount: number
     users: Array<UserType>
     pageSize: number
     currentPage: number
-    setFollowingInProgress: (followingInProgress: boolean, id: number) => void
     followingInProgress: Array<number>
+    unfollowTC: (id: number) => void
+    followTC: (id: number) => void
 }
 
 export const Users: React.FC<UsersPropsType> = (props) => {
@@ -53,24 +51,10 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                 <div>
                     {el.followed
                         ? <button disabled={props.followingInProgress.some( id => id === el.id)} onClick={() => {
-                            props.setFollowingInProgress(true, el.id)
-                            unfollowAxios(el.id).then((data) => {
-                                if (data.resultCode === 0) {
-                                    props.unfollow(el.id)
-                                    props.setFollowingInProgress(false, el.id)
-                                }
-                            })
-
+                            props.unfollowTC(el.id)
                         }}>Unfollow</button>
                         : <button disabled={props.followingInProgress.some( id => id === el.id)} onClick={() => {
-                            props.setFollowingInProgress(true, el.id)
-                            followAxios(el.id).then((data) => {
-                                if (data.resultCode === 0) {
-                                    props.follow(el.id)
-                                    props.setFollowingInProgress(false, el.id)
-                                }
-                            })
-
+                            props.followTC(el.id)
                         }}>follow</button>
                     }
                 </div>

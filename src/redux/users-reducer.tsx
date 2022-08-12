@@ -1,8 +1,11 @@
+import {usersAPI} from "../api/api";
+import {Dispatch} from "redux";
+
 type ActionsType =
     ReturnType<typeof setToggleIsFetchingAC>
     | ReturnType<typeof followAC>
     | ReturnType<typeof setTotalUserCountAC>
-    | ReturnType<typeof unFollowAC>
+    | ReturnType<typeof unfollowAC>
     | ReturnType<typeof setUsersAC>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setFollowingInProgressAC>
@@ -62,7 +65,7 @@ export const UsersReducer = (state: UsersReducerPagePropsType = initialState, ac
 }
 
 export const followAC = (id: number) => ({type: 'FOLLOW' as const, id})
-export const unFollowAC = (id: number) => ({type: 'UN_FOLLOW' as const, id})
+export const unfollowAC = (id: number) => ({type: 'UN_FOLLOW' as const, id})
 export const setUsersAC = (users: Array<UserType>) => ({type: 'SET_USERS' as const, users})
 export const setCurrentPageAC = (page: number) => ({type: 'SET_CURRENT_PAGE' as const, page})
 export const setTotalUserCountAC = (totalUserCount: number) => ({type: 'SET_TOTAL_USER_COUNT' as const, totalUserCount})
@@ -72,3 +75,30 @@ export const setFollowingInProgressAC = (followingInProgress: boolean, userId: n
     followingInProgress,
     userId
 })
+
+export const getUsersTC = (currentPage: number, pageSize: number) => (dispatch: Dispatch) => {
+    dispatch(setToggleIsFetchingAC(true))
+    usersAPI.getUsers(currentPage, pageSize).then((data) => {
+        dispatch(setUsersAC(data.items))
+        dispatch(setTotalUserCountAC(data.totalCount))
+        dispatch(setToggleIsFetchingAC(false))
+    })
+}
+export const unfollowTC = (id: number) => (dispatch: Dispatch) => {
+    dispatch(setFollowingInProgressAC(true, id))
+    usersAPI.unfollowAxios(id).then((data) => {
+        if (data.resultCode === 0) {
+            dispatch(unfollowAC(id))
+            dispatch(setFollowingInProgressAC(false, id))
+        }
+    })
+}
+export const followTC = (id: number) => (dispatch: Dispatch) => {
+    dispatch(setFollowingInProgressAC(true, id))
+    usersAPI.followAxios(id).then((data) => {
+        if (data.resultCode === 0) {
+            dispatch(followAC(id))
+            dispatch(setFollowingInProgressAC(false, id))
+        }
+    })
+}
