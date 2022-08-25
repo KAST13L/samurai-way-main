@@ -4,8 +4,8 @@ import {connect} from "react-redux";
 import {RootType} from "../../../redux/redux-store";
 import {getUserProfileTC, setStatusTC, updateStatusTC, UserProfileInfoType} from "../../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 
 type ProfileContainerPropsType = MapStatePropsType & MapDispatchPropsType & RouteComponentProps<ParamsWithRouterType>
 type ParamsWithRouterType = {

@@ -45,7 +45,6 @@ const initialState = {
         },
         {id: 4, message: 'The parameters allow setting recipient\'s WM-ID, subject and message text.'}
     ] as Array<MessageDataType>,
-    newMessageText: ''
 }
 export type DialogDataType = {
     name: string
@@ -57,7 +56,7 @@ export type MessageDataType = {
     id: number
     message: string
 }
-type ActionTypes = ReturnType<typeof addMessageAC> |ReturnType<typeof updateNewMessageTextAC>
+type ActionTypes = ReturnType<typeof addMessageAC>
 export type DialogsReducerPagePropsType = typeof initialState
 
 export const DialogsReducer = (state: DialogsReducerPagePropsType = initialState, action: ActionTypes): DialogsReducerPagePropsType => {
@@ -65,19 +64,12 @@ export const DialogsReducer = (state: DialogsReducerPagePropsType = initialState
         case "ADD-MESSAGE":
             return {
                 ...state,
-                messagesData: [{id: Date.now(), message: state.newMessageText}, ...state.messagesData],
-                newMessageText: ''
-            }
-        case "UPDATE-NEW-MESSAGE-TEXT":
-            return {
-                ...state,
-                newMessageText: action.text
+                messagesData: [{id: Date.now(), message: action.newMessage}, ...state.messagesData],
             }
         default:
             return state
     }
 };
 
-export const addMessageAC = () => ({type:'ADD-MESSAGE' as const})
-export const updateNewMessageTextAC = (text: string) => ({type:'UPDATE-NEW-MESSAGE-TEXT' as const, text})
+export const addMessageAC = (newMessage: string) => ({type:'ADD-MESSAGE' as const, newMessage })
 

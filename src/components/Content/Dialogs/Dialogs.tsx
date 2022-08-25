@@ -3,24 +3,13 @@ import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {MessageItem} from "./MessageItem/MessageItem";
 import {DialogsPropsType} from "./DialogsContainer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
 
 export const Dialogs = (props: DialogsPropsType) => {
 
-    let newMessageText = React.createRef<HTMLInputElement>()
-
-    const addMessage = () => {
-        if (newMessageText.current) {
-            props.addMessage()
-            newMessageText.current.value = ''
-        }
-    }
-
-    const onChangeHandler = () => {
-        if (newMessageText.current) {
-            let text = newMessageText.current.value
-            props.onChangeHandler(text)
-        }
+    const onSubmit = (formData: AddMessageFormType) => {
+        props.addMessage(formData.message)
     }
 
     let dialogsElements = props.dialogsPage.dialogsData.map(d => <DialogItem key={d.id} name={d.name} urlId={d.urlId} imgUrl={d.imgUrl}/>)
@@ -32,16 +21,29 @@ export const Dialogs = (props: DialogsPropsType) => {
                 {dialogsElements}
             </div>
             <div className={s.messages}>
-                <input type="text"
-                       ref={newMessageText}
-                       onChange={onChangeHandler}
-                       placeholder={'message...'}
-                />
-                <button onClick={addMessage}>Send</button>
+                <div>
+                    <AddNewMessageReduxForm onSubmit={onSubmit}/>
+                </div>
                 {messagesElements}
             </div>
         </div>
     );
 };
+
+
+type AddMessageFormType = {
+    message: string
+}
+
+const AddMessageForm: React.FC<InjectedFormProps<AddMessageFormType>> = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <Field name={'message'} component={'input'} placeholder={'message...'}/>
+            <button>Send</button>
+        </form>
+    )
+}
+
+const AddNewMessageReduxForm = reduxForm<AddMessageFormType>({form:'addNewMessage'})(AddMessageForm)
 
 

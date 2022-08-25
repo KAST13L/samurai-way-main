@@ -5,6 +5,7 @@ import {AuthUserDataType} from "../../redux/auth-reducer";
 
 type HeaderPropsType = {
     authData: AuthUserDataType
+    logoutTC: () => void
 }
 
 export const Header = (props: HeaderPropsType) => {
@@ -18,7 +19,7 @@ export const Header = (props: HeaderPropsType) => {
             <span className={s.loginBlock}>
                 {
                     props.authData.isAuth
-                        ? <span style={{color: 'white'}}>{props.authData.login}</span>
+                        ? <span style={{color: 'white'}}>{props.authData.login} - <button onClick={props.logoutTC}>logout</button></span>
                         : <NavLink to={'/login'}>Login</NavLink>
                 }
             </span>
