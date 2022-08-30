@@ -36,7 +36,7 @@ export const setUserDataAC = (id: number | null, login: string| null, email: str
 })
 
 export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
-    authAPI.me()
+    return authAPI.me()
         .then((response) => {
         if (response.data.resultCode === 0 ){
             let {id, login, email} = response.data.data;
@@ -44,7 +44,7 @@ export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
         }
     })
 }
-export const loginTC = (email: string, password: string, rememberMe: boolean = false) => (dispatch: any) => {
+export const loginTC = (email: string, password: string, rememberMe: boolean = false) => (dispatch: Dispatch | any) => {
     authAPI.login(email, password, rememberMe)
         .then((response) => {
             if (response.data.resultCode === 0) {
