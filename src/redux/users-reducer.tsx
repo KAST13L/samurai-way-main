@@ -40,19 +40,19 @@ export type UserType = {
 
 export const UsersReducer = (state: UsersReducerPagePropsType = initialState, action: ActionsType): UsersReducerPagePropsType => {
     switch (action.type) {
-        case "SET_USERS":
+        case "users/SET_USERS":
             return {...state, users: action.users}
-        case "SET_CURRENT_PAGE":
+        case "users/SET_CURRENT_PAGE":
             return {...state, currentPage: action.page}
-        case "FOLLOW":
+        case "users/FOLLOW":
             return {...state, users: state.users.map(el => el.id === action.id ? {...el, followed: true} : el)}
-        case "UN_FOLLOW":
+        case "users/UN_FOLLOW":
             return {...state, users: state.users.map(el => el.id === action.id ? {...el, followed: false} : el)}
-        case "SET_TOTAL_USER_COUNT":
+        case "users/SET_TOTAL_USER_COUNT":
             return {...state, totalUserCount: action.totalUserCount}
-        case "SET_TOGGLE_IS_FETCHING":
+        case "users/SET_TOGGLE_IS_FETCHING":
             return {...state, isFetching: action.isFetching}
-        case 'SET_FOLLOWING_IN_PROGRESS':
+        case 'users/SET_FOLLOWING_IN_PROGRESS':
             return {
                 ...state,
                 followingInProgress: action.followingInProgress
@@ -64,14 +64,14 @@ export const UsersReducer = (state: UsersReducerPagePropsType = initialState, ac
     }
 }
 
-export const followAC = (id: number) => ({type: 'FOLLOW' as const, id})
-export const unfollowAC = (id: number) => ({type: 'UN_FOLLOW' as const, id})
-export const setUsersAC = (users: Array<UserType>) => ({type: 'SET_USERS' as const, users})
-export const setCurrentPageAC = (page: number) => ({type: 'SET_CURRENT_PAGE' as const, page})
-export const setTotalUserCountAC = (totalUserCount: number) => ({type: 'SET_TOTAL_USER_COUNT' as const, totalUserCount})
-export const setToggleIsFetchingAC = (isFetching: boolean) => ({type: 'SET_TOGGLE_IS_FETCHING' as const, isFetching})
+export const followAC = (id: number) => ({type: 'users/FOLLOW' as const, id})
+export const unfollowAC = (id: number) => ({type: 'users/UN_FOLLOW' as const, id})
+export const setUsersAC = (users: Array<UserType>) => ({type: 'users/SET_USERS' as const, users})
+export const setCurrentPageAC = (page: number) => ({type: 'users/SET_CURRENT_PAGE' as const, page})
+export const setTotalUserCountAC = (totalUserCount: number) => ({type: 'users/SET_TOTAL_USER_COUNT' as const, totalUserCount})
+export const setToggleIsFetchingAC = (isFetching: boolean) => ({type: 'users/SET_TOGGLE_IS_FETCHING' as const, isFetching})
 export const setFollowingInProgressAC = (followingInProgress: boolean, userId: number) => ({
-    type: 'SET_FOLLOWING_IN_PROGRESS' as const,
+    type: 'users/SET_FOLLOWING_IN_PROGRESS' as const,
     followingInProgress,
     userId
 })

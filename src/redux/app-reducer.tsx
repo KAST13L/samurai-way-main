@@ -11,7 +11,7 @@ export type AppReducerPagePropsType = typeof initialState
 
 export const AppReducer = (state: AppReducerPagePropsType = initialState, action: ActionTypes): AppReducerPagePropsType => {
     switch (action.type) {
-        case "INITIALIZED":
+        case "app/INITIALIZED":
             return {
                 ...state,
                 initialized: true
@@ -21,7 +21,7 @@ export const AppReducer = (state: AppReducerPagePropsType = initialState, action
     }
 };
 
-export const initializedAC = () => ({type:'INITIALIZED' as const })
+export const initializedAC = () => ({type:'app/INITIALIZED' as const })
 
 export const initializedTC = () => (dispatch: Dispatch | any) => {
     const promise = dispatch(getAuthUserDataTC())

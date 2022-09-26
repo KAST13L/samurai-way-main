@@ -3,6 +3,7 @@ import s from "./ProfileInfo.module.css";
 import {UserProfileInfoType} from "../../../../redux/profile-reducer";
 import {Preloader} from "../../../../common/Preloader";
 import {ProfileStatus} from "../ProfileStatus/ProfileStatus";
+import {ProfileStatusWithHooks} from "../ProfileStatus/ProfileStatusWithHooks";
 
 type ProfileInfoPropsType = {
     profile: UserProfileInfoType | null
@@ -25,7 +26,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
             <span className={s.info}>
                 <div><h2>ID: <span style={{color: 'red'}}>{props.profile?.userId}</span></h2></div><hr/>
                 <div><h3>Name: <span style={{color: 'red'}}>{props.profile?.fullName}</span></h3></div><hr/>
-                <div><b>Status:</b> <ProfileStatus status={props.status} updateStatusTC={props.updateStatusTC}/></div><hr/>
+                <div><b>Status:</b> <ProfileStatusWithHooks status={props.status} updateStatusTC={props.updateStatusTC}/></div><hr/>
                 <div><b>About me:</b> {props.profile?.aboutMe}</div><hr/>
                 <div><b>Work?:</b> {props.profile?.lookingForAJobDescription}</div><hr/>
             </span>

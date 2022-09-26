@@ -61,7 +61,7 @@ export type DialogsReducerPagePropsType = typeof initialState
 
 export const DialogsReducer = (state: DialogsReducerPagePropsType = initialState, action: ActionTypes): DialogsReducerPagePropsType => {
     switch (action.type) {
-        case "ADD-MESSAGE":
+        case "dialog/ADD-MESSAGE":
             return {
                 ...state,
                 messagesData: [{id: Date.now(), message: action.newMessage}, ...state.messagesData],
@@ -71,5 +71,5 @@ export const DialogsReducer = (state: DialogsReducerPagePropsType = initialState
     }
 };
 
-export const addMessageAC = (newMessage: string) => ({type:'ADD-MESSAGE' as const, newMessage })
+export const addMessageAC = (newMessage: string) => ({type:'dialog/ADD-MESSAGE' as const, newMessage })
 

@@ -35,24 +35,30 @@ const initialState = {
 }
 
 export type ProfileReducerPagePropsType = typeof initialState
-type ActionTypes = ReturnType<typeof addPostAC> |ReturnType<typeof setStatusAC> | ReturnType<typeof setUserProfileAC>
+type ActionTypes = ReturnType<typeof addPostAC> |ReturnType<typeof setStatusAC> | ReturnType<typeof setUserProfileAC> | ReturnType<typeof deletePostAC>
 
 export const ProfileReducer = (state: ProfileReducerPagePropsType = initialState, action: ActionTypes): ProfileReducerPagePropsType => {
     switch (action.type) {
-        case "ADD-POST":
+        case "profile/ADD-POST":
             return {
                 ...state,
                 postsData: [{id: Date.now(), message: action.postMessage}, ...state.postsData],
             }
-        case 'SET-USER-PROFILE':
+        case 'profile/SET-USER-PROFILE':
             return {
                 ...state,
                 profile: action.profile
             }
-        case 'SET_STATUS':{
+        case 'profile/SET_STATUS':{
             return {
                 ...state,
                 status: action.status
+            }
+        }
+        case 'profile/DELETE-POST':{
+            return {
+                ...state,
+                postsData: state.postsData.filter( e => e.id !== action.postId)
             }
         }
         default:
@@ -60,9 +66,10 @@ export const ProfileReducer = (state: ProfileReducerPagePropsType = initialState
     }
 };
 
-export const addPostAC = (postMessage: string) => ({type:'ADD-POST' as const, postMessage})
-export const setUserProfileAC = (profile: UserProfileInfoType) => ({type:'SET-USER-PROFILE' as const, profile })
-export const setStatusAC = (status: string) => ({type:'SET_STATUS' as const, status})
+export const addPostAC = (postMessage: string) => ({type:'profile/ADD-POST' as const, postMessage})
+export const deletePostAC = (postId: number) => ({type:'profile/DELETE-POST' as const, postId})
+export const setUserProfileAC = (profile: UserProfileInfoType) => ({type:'profile/SET-USER-PROFILE' as const, profile })
+export const setStatusAC = (status: string) => ({type:'profile/SET_STATUS' as const, status})
 
 export const getUserProfileTC = (userId: string) => (dispatch: Dispatch) => {
     profileAPI.getUserProfile(userId).then((data) => {

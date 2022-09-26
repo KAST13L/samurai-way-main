@@ -3,7 +3,9 @@ import {Post} from "./Post/Post";
 import {MyPostsPropsType} from "./MyPostsContainer";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
-export const MyPosts= (props: MyPostsPropsType) => {
+export const MyPosts = React.memo((props: MyPostsPropsType) => {
+
+    console.log('render')
 
     const onSubmit = (formData: AddPostFormType) => {
         props.addPost(formData.postMessage)
@@ -16,14 +18,14 @@ export const MyPosts= (props: MyPostsPropsType) => {
     return (
         <div>
             <div>
-              <AddNewPostReduxForm onSubmit={onSubmit}/>
+                <AddNewPostReduxForm onSubmit={onSubmit}/>
             </div>
             <div>
                 {postsElements}
             </div>
         </div>
     );
-};
+})
 
 type AddPostFormType = {
     postMessage: string
@@ -38,6 +40,6 @@ const AddPostForm: React.FC<InjectedFormProps<AddPostFormType>> = (props) => {
     )
 }
 
-const AddNewPostReduxForm = reduxForm<AddPostFormType>({form:'addNewPost'})(AddPostForm)
+const AddNewPostReduxForm = reduxForm<AddPostFormType>({form: 'addNewPost'})(AddPostForm)
 
 
