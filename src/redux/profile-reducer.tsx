@@ -35,7 +35,11 @@ const initialState = {
 }
 
 export type ProfileReducerPagePropsType = typeof initialState
-type ActionTypes = ReturnType<typeof addPostAC> |ReturnType<typeof setStatusAC> | ReturnType<typeof setUserProfileAC> | ReturnType<typeof deletePostAC>
+type ActionTypes =
+    ReturnType<typeof addPostAC>
+    | ReturnType<typeof setStatusAC>
+    | ReturnType<typeof setUserProfileAC>
+    | ReturnType<typeof deletePostAC>
 
 export const ProfileReducer = (state: ProfileReducerPagePropsType = initialState, action: ActionTypes): ProfileReducerPagePropsType => {
     switch (action.type) {
@@ -49,16 +53,16 @@ export const ProfileReducer = (state: ProfileReducerPagePropsType = initialState
                 ...state,
                 profile: action.profile
             }
-        case 'profile/SET_STATUS':{
+        case 'profile/SET_STATUS': {
             return {
                 ...state,
                 status: action.status
             }
         }
-        case 'profile/DELETE-POST':{
+        case 'profile/DELETE-POST': {
             return {
                 ...state,
-                postsData: state.postsData.filter( e => e.id !== action.postId)
+                postsData: state.postsData.filter(e => e.id !== action.postId)
             }
         }
         default:
@@ -66,25 +70,23 @@ export const ProfileReducer = (state: ProfileReducerPagePropsType = initialState
     }
 };
 
-export const addPostAC = (postMessage: string) => ({type:'profile/ADD-POST' as const, postMessage})
-export const deletePostAC = (postId: number) => ({type:'profile/DELETE-POST' as const, postId})
-export const setUserProfileAC = (profile: UserProfileInfoType) => ({type:'profile/SET-USER-PROFILE' as const, profile })
-export const setStatusAC = (status: string) => ({type:'profile/SET_STATUS' as const, status})
+export const addPostAC = (postMessage: string) => ({type: 'profile/ADD-POST' as const, postMessage})
+export const deletePostAC = (postId: number) => ({type: 'profile/DELETE-POST' as const, postId})
+export const setUserProfileAC = (profile: UserProfileInfoType) => ({type: 'profile/SET-USER-PROFILE' as const, profile})
+export const setStatusAC = (status: string) => ({type: 'profile/SET_STATUS' as const, status})
 
-export const getUserProfileTC = (userId: string) => (dispatch: Dispatch) => {
-    profileAPI.getUserProfile(userId).then((data) => {
-        dispatch(setUserProfileAC(data))
-    })
+export const getUserProfileTC = (userId: string) => async (dispatch: Dispatch) => {
+    let data = await profileAPI.getUserProfile(userId)
+    dispatch(setUserProfileAC(data))
 }
-export const setStatusTC = (userId: string) => (dispatch: Dispatch) => {
-    profileAPI.getStatus(userId).then( data => {
-        dispatch(setStatusAC(data))
-    })
+export const setStatusTC = (userId: string) => async (dispatch: Dispatch) => {
+    let data = await profileAPI.getStatus(userId)
+    dispatch(setStatusAC(data))
+
 }
-export const updateStatusTC = (status: string) => (dispatch: Dispatch) => {
-    profileAPI.updateUserStatus(status).then( data => {
-        if (data.resultCode === 0 ) {
-            dispatch(setStatusAC(status))
-        }
-    })
+export const updateStatusTC = (status: string) => async (dispatch: Dispatch) => {
+    let data = await profileAPI.updateUserStatus(status)
+    if (data.resultCode === 0) {
+        dispatch(setStatusAC(status))
+    }
 }
