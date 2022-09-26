@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from "../components/Content/Users/Users.module.css";
 
 type PaginatorPropsType = {
@@ -6,9 +6,16 @@ type PaginatorPropsType = {
     pageSize: number
     currentPage: number
     onPageChanged: (page: number) => void
+    portionSize?: number
 }
 
-export const Paginator: React.FC<PaginatorPropsType> = ({totalUserCount, pageSize, currentPage,onPageChanged}) => {
+export const Paginator: React.FC<PaginatorPropsType> = ({
+                                                            totalUserCount,
+                                                            pageSize,
+                                                            currentPage,
+                                                            onPageChanged,
+                                                            portionSize = 10
+                                                        }) => {
 
     let pagesCount = Math.ceil(totalUserCount / pageSize);
     let pages = [];
@@ -16,8 +23,21 @@ export const Paginator: React.FC<PaginatorPropsType> = ({totalUserCount, pageSiz
         pages.push(i);
     }
 
+    let portionCount = Math.ceil(pagesCount / portionSize)
+    const [portionNumber, setPortionNumber] = useState(1)
+    let leftPortionPageNumber = (portionNumber - 1 ) * portionSize + 1;
+    let rightPortionPageNumber = portionNumber * portionSize
+
     return <div style={{textAlign: 'center'}}>
-        {pages.map((p, index) => <span key={index}>
+        <button
+            style={{width:'70px'}}
+            disabled={portionNumber === 1}
+            onClick={()=>{setPortionNumber(el => el - 1)}}>
+            {"<"}
+        </button>
+        {pages
+            .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+            .map((p, index) => <span key={index}>
                     <span
                         className={s.page}
                         onClick={() => {
@@ -28,6 +48,14 @@ export const Paginator: React.FC<PaginatorPropsType> = ({totalUserCount, pageSiz
                             : {}
                         }>{p}</span>-
                 </span>)}
+         <button
+            style={{width: '70px'}}
+            disabled={portionNumber === portionCount}
+            onClick={() => {
+                setPortionNumber(el => el + 1)
+            }}>
+            {">"}
+        </button>
     </div>
 };
 

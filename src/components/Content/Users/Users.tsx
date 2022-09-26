@@ -24,7 +24,7 @@ export const Users: React.FC<UsersPropsType> = (props) => {
 
     return <div className={s.usersPage}>
         <Paginator currentPage={props.currentPage} pageSize={props.pageSize} totalUserCount={props.totalUserCount}
-                   onPageChanged={props.onPageChanged}/>
+                   onPageChanged={props.onPageChanged} portionSize={25}/>
         {props.users.map(el => <User
             /*id={el.id}
             photos={el.photos}
