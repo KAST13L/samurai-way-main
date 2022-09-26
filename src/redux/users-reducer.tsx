@@ -72,10 +72,7 @@ export const setTotalUserCountAC = (totalUserCount: number) => ({
     type: 'users/SET_TOTAL_USER_COUNT' as const,
     totalUserCount
 })
-export const setToggleIsFetchingAC = (isFetching: boolean) => ({
-    type: 'users/SET_TOGGLE_IS_FETCHING' as const,
-    isFetching
-})
+export const setToggleIsFetchingAC = (isFetching: boolean) => ({type: 'users/SET_TOGGLE_IS_FETCHING' as const, isFetching})
 export const setFollowingInProgressAC = (followingInProgress: boolean, userId: number) => ({
     type: 'users/SET_FOLLOWING_IN_PROGRESS' as const,
     followingInProgress,
@@ -89,20 +86,19 @@ export const getUsersTC = (currentPage: number, pageSize: number) => async (disp
     dispatch(setTotalUserCountAC(data.totalCount))
     dispatch(setToggleIsFetchingAC(false))
 }
-export const unfollowTC = (id: number) => async (dispatch: Dispatch) => {
-    dispatch(setFollowingInProgressAC(true, id))
-    let data = await usersAPI.unfollowAxios(id)
-    if (data.resultCode === 0) {
-        dispatch(unfollowAC(id))
-        dispatch(setFollowingInProgressAC(false, id))
-    }
 
+export const unfollowTC = (id: number) => async (dispatch: Dispatch) => {
+    followUnfollowFlow(dispatch, id, usersAPI.unfollowAxios.bind(usersAPI), unfollowAC )
 }
 export const followTC = (id: number) => async (dispatch: Dispatch) => {
+    followUnfollowFlow(dispatch, id, usersAPI.followAxios.bind(usersAPI), followAC )
+}
+
+const followUnfollowFlow = async (dispatch: Dispatch, id: number, apiMethod: any, AC: any ) => {
     dispatch(setFollowingInProgressAC(true, id))
-    let data = await usersAPI.followAxios(id)
+    let data = await apiMethod(id)
     if (data.resultCode === 0) {
-        dispatch(followAC(id))
+        dispatch(AC(id))
         dispatch(setFollowingInProgressAC(false, id))
     }
 }
