@@ -34,8 +34,8 @@ export type UserType = {
         small: string | null,
         large?: string | null
     },
-    status: string | null,
-    followed: boolean
+    status?: string | null,
+    followed?: boolean
 }
 
 export const UsersReducer = (state: UsersReducerPagePropsType = initialState, action: ActionsType): UsersReducerPagePropsType => {
