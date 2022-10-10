@@ -1,7 +1,7 @@
 import React from 'react';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {connect} from "react-redux";
-import {loginTC} from "../../redux/auth-reducer";
+import {getCaptchaTC, loginTC} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import {RootType} from "../../redux/redux-store";
 
@@ -9,6 +9,7 @@ type FormDataType = {
     login: string
     password: string
     rememberMe: boolean
+    captcha?: string | null
 }
 
 const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
@@ -32,6 +33,7 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
         </form>
     )
 }
+
 const LoginReduxForm = reduxForm<FormDataType>({form:'login'})(LoginForm)
 
 export const Login = (props: MapDispatchToPropsType & MapStateToPropsType) => {
@@ -57,16 +59,19 @@ export const Login = (props: MapDispatchToPropsType & MapStateToPropsType) => {
 
 type MapDispatchToPropsType = {
     loginTC: (email: string, password: string, rememberMe: boolean) => void
+    getCaptchaTC: () => void
 }
 type MapStateToPropsType = {
     isAuth: boolean
+    captcha: string | null
 }
 
 const mapStateToProps = (state: RootType): MapStateToPropsType => {
     return {
-        isAuth: state.Auth.isAuth
+        isAuth: state.Auth.isAuth,
+        captcha: state.Auth.captcha
     }
 }
 
-export const LoginContainer = connect(mapStateToProps, {loginTC: loginTC})(Login)
+export const LoginContainer = connect(mapStateToProps, {loginTC,getCaptchaTC})(Login)
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
+import {RootType} from "./redux-store";
 
 export type UserProfileInfoType = {
     aboutMe: string,
@@ -97,10 +98,13 @@ export const updateStatusTC = (status: string) => async (dispatch: Dispatch) => 
         dispatch(setStatusAC(status))
     }
 }
-export const updateProfileInfoTC = (profile: UserProfileInfoType) => async (dispatch: Dispatch) => {
+export const updateProfileInfoTC = (profile: UserProfileInfoType) => async (dispatch: Dispatch<any>, getState: () => RootType) => {
     let data = await profileAPI.updateUserInfo(profile)
+    const id = getState().Auth.id
     if (data.resultCode === 0) {
-        //dispatch(setStatusAC(status))
+        if (id){
+            dispatch(getUserProfileTC(id.toString()))
+        }
     }
 }
 export const savePhoto = (photo: any) => async (dispatch: Dispatch) => {

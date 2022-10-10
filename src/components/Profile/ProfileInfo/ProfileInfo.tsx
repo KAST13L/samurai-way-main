@@ -50,7 +50,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                     <hr/>
                     <div><b>Work?:</b> {props.profile?.lookingForAJobDescription || '---'}</div>
                     <hr/>
-                </div> : <EditFormData onPhotoSave={props.savePhoto} updateProfileInfoTC={props.updateProfileInfoTC}
+                </div> : <EditFormData onPhotoSave={onPhotoSave} updateProfileInfoTC={props.updateProfileInfoTC}
                                        profile={props.profile}
                                        setEditMode={setEditMode}/>}
             </span>
@@ -67,26 +67,38 @@ type EditFormDataType = {
 
 export const EditFormData = (props: EditFormDataType) => {
 
-    const {register, handleSubmit} = useForm<UserProfileInfoType>();
+    const {register, handleSubmit, formState:{errors}} = useForm<UserProfileInfoType>({
+        defaultValues: {
+            fullName: props.profile.fullName,
+            aboutMe: props.profile.aboutMe,
+            lookingForAJobDescription: props.profile.lookingForAJobDescription
+        }
+    });
     const onSubmit: SubmitHandler<UserProfileInfoType> = data => {
         props.updateProfileInfoTC(data)
         props.setEditMode(false)
+
     };
 
     return <div>
         <form onSubmit={handleSubmit(onSubmit)}>
             <button type={'submit'}>save changes</button>
             <div>
-                <h3>Name: <input {...register("fullName", {required: true, maxLength: 20})} /></h3>
-            </div><hr/>
+                <h3>Name: <input {...register("fullName", {required: 'required', maxLength: 20}, )} /></h3>
+                {errors && <div style={{color:'red'}}>{errors.fullName?.message}</div>}
+            </div>
+            <hr/>
             <div>
-                <b>About me :</b> <input {...register("aboutMe", {required: true, maxLength: 200})} />
-            </div><hr/>
+                <b>About me :</b> <input {...register("aboutMe", {required: 'required', maxLength: 200})} />
+                {errors && <div style={{color:'red'}}>{errors.aboutMe?.message}</div>}
+            </div>
+            <hr/>
             <div>
-                <b>Work?:</b> <input {...register("lookingForAJobDescription", {required: true, maxLength: 200})} />
-            </div><hr/>
+                <b>Work?:</b> <input {...register("lookingForAJobDescription", {required: 'required', maxLength: 200})} />
+                {errors && <div style={{color:'red'}}>{errors.lookingForAJobDescription?.message}</div>}
+            </div>
+            <hr/>
         </form>
-        <span><b>You want change image?: </b><input type={'file'}
-                                                    onChange={props.onPhotoSave}/></span>
+        <span><b>You want change image?: </b><input type={'file'} onChange={props.onPhotoSave}/></span>
     </div>
 }
