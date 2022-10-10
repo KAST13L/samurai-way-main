@@ -1,10 +1,10 @@
 import React from 'react';
-import {addMessageAC, DialogsReducerPagePropsType} from "../../../redux/dialog-reducer";
+import {addMessageAC, DialogsReducerPagePropsType} from "../../redux/dialog-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {compose, Dispatch} from "redux";
-import {RootType} from "../../../redux/redux-store";
-import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+import {RootType} from "../../redux/redux-store";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {withRouter} from "react-router-dom";
 
 type MapStatePropsType = {

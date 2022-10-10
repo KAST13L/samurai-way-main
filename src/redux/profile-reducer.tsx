@@ -19,8 +19,8 @@ export type UserProfileInfoType = {
     fullName: string,
     userId: number,
     photos: {
-        small: string
-        large: string
+        small: string | any
+        large: string | any
     }
 }
 
@@ -30,7 +30,7 @@ const initialState = {
         {id: 2, message: "What are you doing?"},
         {id: 3, message: "Lets go to play football, dear Davyd!"}
     ],
-    profile: null as UserProfileInfoType | null,
+    profile: null as UserProfileInfoType | null | any,
     status: ''
 }
 
@@ -40,6 +40,7 @@ type ActionTypes =
     | ReturnType<typeof setStatusAC>
     | ReturnType<typeof setUserProfileAC>
     | ReturnType<typeof deletePostAC>
+    | ReturnType<typeof setPhotoAC>
 
 export const ProfileReducer = (state: ProfileReducerPagePropsType = initialState, action: ActionTypes): ProfileReducerPagePropsType => {
     switch (action.type) {
@@ -65,6 +66,11 @@ export const ProfileReducer = (state: ProfileReducerPagePropsType = initialState
                 postsData: state.postsData.filter(e => e.id !== action.postId)
             }
         }
+        case 'profile/SET_PHOTOS':{
+            return {
+                ...state, profile: {...state.profile, photos: action.photos}
+            }
+        }
         default:
             return state
     }
@@ -74,6 +80,7 @@ export const addPostAC = (postMessage: string) => ({type: 'profile/ADD-POST' as 
 export const deletePostAC = (postId: number) => ({type: 'profile/DELETE-POST' as const, postId})
 export const setUserProfileAC = (profile: UserProfileInfoType) => ({type: 'profile/SET-USER-PROFILE' as const, profile})
 export const setStatusAC = (status: string) => ({type: 'profile/SET_STATUS' as const, status})
+export const setPhotoAC = (photos: any) => ({type: 'profile/SET_PHOTOS' as const, photos})
 
 export const getUserProfileTC = (userId: string) => async (dispatch: Dispatch) => {
     let data = await profileAPI.getUserProfile(userId)
@@ -88,5 +95,17 @@ export const updateStatusTC = (status: string) => async (dispatch: Dispatch) => 
     let data = await profileAPI.updateUserStatus(status)
     if (data.resultCode === 0) {
         dispatch(setStatusAC(status))
+    }
+}
+export const updateProfileInfoTC = (profile: UserProfileInfoType) => async (dispatch: Dispatch) => {
+    let data = await profileAPI.updateUserInfo(profile)
+    if (data.resultCode === 0) {
+        //dispatch(setStatusAC(status))
+    }
+}
+export const savePhoto = (photo: any) => async (dispatch: Dispatch) => {
+    let data = await profileAPI.savePhoto(photo)
+    if (data.data.resultCode === 0) {
+        dispatch(setPhotoAC(photo))
     }
 }

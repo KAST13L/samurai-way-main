@@ -6,11 +6,11 @@ import {
     setTotalUserCountAC,
     unfollowTC,
     UsersReducerPagePropsType
-} from "../../../redux/users-reducer";
-import {RootType} from "../../../redux/redux-store";
+} from "../../redux/users-reducer";
+import {RootType} from "../../redux/redux-store";
 import {Users} from "./Users";
 import React from "react";
-import {Preloader} from "../../../common/Preloader";
+import {Preloader} from "../../common/Preloader";
 import {compose} from "redux";
 
 type MapStatePropsType = {

@@ -1,9 +1,9 @@
 import React from 'react';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {connect} from "react-redux";
-import {loginTC} from "../../../redux/auth-reducer";
+import {loginTC} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
-import {RootType} from "../../../redux/redux-store";
+import {RootType} from "../../redux/redux-store";
 
 type FormDataType = {
     login: string

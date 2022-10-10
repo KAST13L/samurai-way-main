@@ -2,12 +2,12 @@ import React from 'react';
 import s from "./App.module.css"
 import {Navbar} from "./components/Navbar/Navbar";
 import {Redirect, Route, withRouter} from "react-router-dom";
-import DialogsContainer from "./components/Content/Dialogs/DialogsContainer";
-import UsersContainer from "./components/Content/Users/UsersContainer";
-import ProfileContainer from "./components/Content/Profile/ProfileContainer";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import UsersContainer from "./components/Users/UsersContainer";
+import ProfileContainer from "./components/Profile/ProfileContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
-import {LoginContainer} from "./components/Content/Login/Login";
-import {News} from "./components/Content/News/News";
+import {LoginContainer} from "./components/Login/Login";
+import {News} from "./components/News/News";
 import {connect} from "react-redux";
 import {RootType} from "./redux/redux-store";
 import {compose} from "redux";

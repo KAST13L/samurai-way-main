@@ -1,7 +1,7 @@
 import React from 'react';
 import s from "./Users.module.css";
 import {NavLink} from "react-router-dom";
-import {UserType} from "../../../redux/users-reducer";
+import {UserType} from "../../redux/users-reducer";
 
 type UserPropsType = {
     followingInProgress: Array<number>

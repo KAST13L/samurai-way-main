@@ -5,8 +5,6 @@ import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
 export const MyPosts = React.memo((props: MyPostsPropsType) => {
 
-    console.log('render')
-
     const onSubmit = (formData: AddPostFormType) => {
         props.addPost(formData.postMessage)
     }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import s from "../components/Content/Users/Users.module.css";
+import s from "../components/Users/Users.module.css";
 
 type PaginatorPropsType = {
     totalUserCount: number

@@ -2,16 +2,16 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 
 type ProfileStatusType = {
     status: string
-    updateStatusTC: (status: string) => void
+    callback: (status: string) => void
+    isOwner: boolean
 }
 
-export const ProfileStatusWithHooks = (props: ProfileStatusType) => {
-
+export const EditableSpanWithHooks = (props: ProfileStatusType) => {
     const [editMode, setEditMode] = useState<boolean>(false)
-    const [statusValue, setStatusValue] = useState<string>(props.status)
+    const [value, setValue] = useState<string>(props.status)
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setStatusValue(e.currentTarget.value)
+        setValue(e.currentTarget.value)
     }
 
     const activateEditMode = () => {
@@ -20,19 +20,21 @@ export const ProfileStatusWithHooks = (props: ProfileStatusType) => {
 
     const deactivateEditMode = () => {
         setEditMode(false)
-        props.updateStatusTC(statusValue)
+        props.callback(value)
     }
 
     useEffect(()=>{
-        setStatusValue(props.status)
+        setValue(props.status)
     },[props.status])
 
     return (
         <span>
                 {!editMode
                     ? <span onDoubleClick={activateEditMode}>{props.status || 'no status...'}</span>
-                    : <input autoFocus onBlur={deactivateEditMode} onChange={onChange} type="text"
-                             value={statusValue}/>}
+                    : props.isOwner
+                        ? <input autoFocus onBlur={deactivateEditMode} onChange={onChange} type="text"
+                             value={value}/>
+                        : <span onDoubleClick={activateEditMode}>{props.status || 'no status...'}</span>}
             </span>
     );
 }
