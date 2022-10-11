@@ -9,10 +9,12 @@ type FormDataType = {
     login: string
     password: string
     rememberMe: boolean
-    captcha?: string | null
+    captcha: string
 }
-
-const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+type FormOwnType = {
+    captcha: string | null
+}
+const LoginForm: React.FC<InjectedFormProps<FormDataType, FormOwnType> & FormOwnType > = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
@@ -27,6 +29,7 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
             <div style={{color: "red"}}>
                 <h3>{props.error}</h3>
             </div>
+            {props.captcha}
             <div>
                 <button>Login</button>
             </div>
@@ -34,7 +37,7 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     )
 }
 
-const LoginReduxForm = reduxForm<FormDataType>({form:'login'})(LoginForm)
+const LoginReduxForm = reduxForm<FormDataType, FormOwnType>({form:'login'})(LoginForm)
 
 export const Login = (props: MapDispatchToPropsType & MapStateToPropsType) => {
 
@@ -50,8 +53,9 @@ export const Login = (props: MapDispatchToPropsType & MapStateToPropsType) => {
         <div>
             <h1>LOGIN</h1>
             <div>
-                <LoginReduxForm onSubmit={onSubmit}/>
+                <LoginReduxForm onSubmit={onSubmit} captcha={props.captcha}/>
             </div>
+            {props.captcha}
         </div>
     );
 };
