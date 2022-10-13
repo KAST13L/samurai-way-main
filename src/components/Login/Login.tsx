@@ -29,7 +29,7 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType, FormOwnType> & FormOwn
             <div style={{color: "red"}}>
                 <h3>{props.error}</h3>
             </div>
-            {props.captcha}
+            {props.captcha && <img src={props.captcha} alt="i"/>}
             <div>
                 <button>Login</button>
             </div>
@@ -55,7 +55,6 @@ export const Login = (props: MapDispatchToPropsType & MapStateToPropsType) => {
             <div>
                 <LoginReduxForm onSubmit={onSubmit} captcha={props.captcha}/>
             </div>
-            {props.captcha}
         </div>
     );
 };
