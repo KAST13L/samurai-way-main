@@ -30,6 +30,7 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType, FormOwnType> & FormOwn
                 <h3>{props.error}</h3>
             </div>
             {props.captcha && <img src={props.captcha} alt="i"/>}
+            {props.captcha && <Field component={'input'} name={'captcha'} type={'text'} placeholder={'symbols'}/>}
             <div>
                 <button>Login</button>
             </div>
@@ -42,7 +43,7 @@ const LoginReduxForm = reduxForm<FormDataType, FormOwnType>({form:'login'})(Logi
 export const Login = (props: MapDispatchToPropsType & MapStateToPropsType) => {
 
     const onSubmit = (formData: FormDataType) => {
-        props.loginTC(formData.login, formData.password, formData.rememberMe)
+        props.loginTC(formData.login, formData.password, formData.rememberMe, formData.captcha)
     }
 
     if (props.isAuth) {
@@ -61,8 +62,7 @@ export const Login = (props: MapDispatchToPropsType & MapStateToPropsType) => {
 
 
 type MapDispatchToPropsType = {
-    loginTC: (email: string, password: string, rememberMe: boolean) => void
-    getCaptchaTC: () => void
+    loginTC: (email: string, password: string, rememberMe: boolean, captcha: string | null) => void
 }
 type MapStateToPropsType = {
     isAuth: boolean
