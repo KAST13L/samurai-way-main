@@ -16,8 +16,17 @@ import {initializedTC} from "./redux/app-reducer";
 
 class App extends React.Component<AppPropsType> {
 
+    catchAllUnhandledErrors = (promiseRejectionEvent: any) => {
+        alert('some error')
+        console.log(promiseRejectionEvent)
+    }
+
     componentDidMount() {
         this.props.initializedTC()
+        window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+    }
+    componentWillUnmount() {
+        window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors);
     }
 
     render() {
