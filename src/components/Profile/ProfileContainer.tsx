@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {RootType} from "../../redux/redux-store";
 import {
     getUserProfileTC,
-    savePhoto,
+   savePhoto,
     setStatusTC, updateProfileInfoTC,
     updateStatusTC,
     UserProfileInfoType
@@ -34,7 +34,7 @@ export class ProfileContainer extends React.Component<ProfileContainerPropsType>
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId){
-            userId = '20163'
+            userId = '1079'
         }
         this.props.getUserProfileTC(userId)
         this.props.setStatusTC(userId)

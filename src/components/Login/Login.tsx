@@ -16,7 +16,12 @@ type FormOwnType = {
 }
 const LoginForm: React.FC<InjectedFormProps<FormDataType, FormOwnType> & FormOwnType > = (props) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={props.handleSubmit} style={{display:'flex', flexDirection:'column',justifyContent:'center', alignItems:'center'}}>
+            <div>
+                Test account: <hr/>
+                Email: free@samuraijs.com <hr/>
+                Password: free <hr/>
+            </div>
             <div>
                 <Field component={'input'} name={'login'} type="text" placeholder={'login'}/>
             </div>
@@ -51,7 +56,7 @@ export const Login = (props: MapDispatchToPropsType & MapStateToPropsType) => {
     }
 
     return (
-        <div>
+        <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}} >
             <h1>LOGIN</h1>
             <div>
                 <LoginReduxForm onSubmit={onSubmit} captcha={props.captcha}/>

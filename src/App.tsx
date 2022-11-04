@@ -13,7 +13,9 @@ import {RootType} from "./redux/redux-store";
 import {compose} from "redux";
 import {Preloader} from "./common/Preloader";
 import {initializedTC} from "./redux/app-reducer";
+
 // main
+
 class App extends React.Component<AppPropsType> {
 
     catchAllUnhandledErrors = (promiseRejectionEvent: any) => {
@@ -60,9 +62,6 @@ type AppPropsType = MapStateToPropsType & MapDispatchPropsType
 const mapStateToProps = (state: RootType): MapStateToPropsType => ({
         initialized: state.AppPage.initialized
     })
-
-
-
 
 export default compose<React.ComponentType>(
     withRouter,
